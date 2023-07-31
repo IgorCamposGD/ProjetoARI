@@ -1,0 +1,37 @@
+# Use a CentOS 7 base image
+FROM centos:7
+LABEL maintainer="Fortics"
+RUN yum -y update && \
+    yum -y install epel-release && \
+    yum -y install wget gcc ncurses-devel libxml2-devel sqlite-devel jansson-devel uuid-devel openssl-devel libedit-devel libsrtp-devel speex-devel pjproject-devel make
+
+# Baixando e descompactando e instalando asterisk
+RUN mkdir -p /usr/src && \
+    cd /usr/src && \
+    wget https://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-18.11.2.tar.gz && \
+    tar -zxvf asterisk-18.11.2.tar.gz
+
+RUN bash /usr/src/asterisk-18.11.2/contrib/scripts/install_prereq install && \
+    cd /usr/src/asterisk-18.11.2 && \
+    ./configure --with-jansson-bundled && \
+    make && \
+    make install && \
+    make samples && \
+    make config
+
+RUN yum clean all && \
+    rm -rf /usr/src/asterisk-* && \
+    rm -f /usr/src/asterisk-18-current.tar.gz
+
+# Configurando ARI no asterisk
+RUN yum install npm -y && \
+    npm install -g wscat && \
+    yum install curl -y && \
+    echo -e "[general]\nenabled = yes\nbindaddr = 0.0.0.0" > /etc/asterisk/http.conf && \
+    echo -e "[general]\nenabled = yes\npretty = yes\n\n[asterisk]\ntype = user\nread_only = no\npassword = asterisk" > /etc/asterisk/ari.conf
+
+
+#instalando python
+#FROM python:3.8
+#WORKDIR /py/
+#COPY ari-py-master .
