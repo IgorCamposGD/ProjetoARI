@@ -1,9 +1,27 @@
 version: '3.8'
+
+
 services:
+
   asterisk:
-    image: centos
-    container_name: asterisk-container
-    restart: always
+    build: 
+      context: D:/DEV/ProjetoARI/docker-asterisk/
+      dockerfile: dockerfile
+    container_name: asterisk
     ports:
       - "5060:5060/udp"
       - "10000-20000:10000-20000/udp"
+    networks:
+      - compose-bridge
+
+  python:
+    build: 
+      context: D:/DEV/ProjetoARI/docker-python/
+      dockerfile: dockerfile
+    container_name: python
+    networks:
+      - compose-bridge
+
+networks:
+  compose-bridge:
+    driver: bridge

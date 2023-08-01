@@ -1,7 +1,0 @@
-*.egg*
-*.pyc
-.coverage
-cover/
-dist/
-nosetests.xml
-build

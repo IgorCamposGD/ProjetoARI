@@ -1,0 +1,4 @@
+#instalando python
+FROM python:3.8
+WORKDIR /py
+COPY . .
