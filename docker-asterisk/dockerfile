@@ -1,6 +1,5 @@
 # Use a CentOS 7 base image
 FROM centos:7
-WORKDIR /
 LABEL maintainer="Fortics"
 RUN yum -y update && \
     yum -y install epel-release && \
@@ -31,5 +30,4 @@ RUN yum install npm -y && \
     echo -e "[general]\nenabled = yes\nbindaddr = 0.0.0.0" > /etc/asterisk/http.conf && \
     echo -e "[general]\nenabled = yes\npretty = yes\n\n[asterisk]\ntype = user\nread_only = no\npassword = asterisk" > /etc/asterisk/ari.conf
 
-CMD /etc/init.d/asterisk start && tail -f /dev/null
-    
+
