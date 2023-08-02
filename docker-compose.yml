@@ -5,22 +5,29 @@ services:
 
   asterisk:
     build: 
-      context: D:/DEV/ProjetoARI/docker-asterisk/
+      context: ./docker-asterisk/
       dockerfile: dockerfile
     container_name: asterisk
     ports:
+      - 8088:8088
       - "5060:5060/udp"
-      - "10000-20000:10000-20000/udp"
+      - "10000:10010/udp"
+    volumes:
+      - ./docker-asterisk/asterisk.conf:/etc/asterisk/asterisk.conf
+      - ./docker-asterisk/extensions.conf:/etc/asterisk/extensions.conf
+      - ./docker-asterisk/pjsip.conf:/etc/asterisk/pjsip.conf
     networks:
       - compose-bridge
 
   python:
     build: 
-      context: D:/DEV/ProjetoARI/docker-python/
+      context: ./docker-python/
       dockerfile: dockerfile
     container_name: python
     networks:
       - compose-bridge
+    depends_on:
+      - asterisk
 
 networks:
   compose-bridge:
