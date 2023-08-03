@@ -9,15 +9,15 @@ services:
       dockerfile: dockerfile
     container_name: asterisk
     ports:
-      - 8088:8088
       - "5060:5060/udp"
-      - "10000:10010/udp"
+      - "10000-10100:10000-10100/udp"
     volumes:
       - ./docker-asterisk/asterisk.conf:/etc/asterisk/asterisk.conf
       - ./docker-asterisk/extensions.conf:/etc/asterisk/extensions.conf
       - ./docker-asterisk/pjsip.conf:/etc/asterisk/pjsip.conf
     networks:
-      - compose-bridge
+       compose-bridge:
+        ipv4_address: 192.168.1.100
 
   python:
     build: 
@@ -25,10 +25,15 @@ services:
       dockerfile: dockerfile
     container_name: python
     networks:
-      - compose-bridge
+       compose-bridge:
+        ipv4_address: 192.168.1.101
     depends_on:
       - asterisk
 
 networks:
   compose-bridge:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/24

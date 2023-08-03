@@ -30,7 +30,6 @@ RUN yum install npm -y && \
     yum install curl -y && \
     echo -e "[general]\nenabled = yes\nbindaddr = 0.0.0.0" > /etc/asterisk/http.conf && \
     echo -e "[general]\nenabled = yes\npretty = yes\n\n[asterisk]\ntype = user\nread_only = no\npassword = asterisk" > /etc/asterisk/ari.conf
-EXPOSE 5060
-EXPOSE 8088
+
 CMD /etc/init.d/asterisk start && tail -f /dev/null
-    
+

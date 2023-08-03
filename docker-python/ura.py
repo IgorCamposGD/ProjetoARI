@@ -5,7 +5,7 @@ from variaveisAmbientes import *
 
 async def on_channel_event(channel_obj, event_name):
     if event_name == 'StasisStart':
-        playback = await channel_obj.play(media='sound:custom/ura-menu')
+        playback = await channel_obj.play(media='/var/lib/asterisk/sounds/en/one-moment-please.gsm')
         await asyncio.sleep(8)  # Wait 8 seconds for user input
 
         if playback.state != 'done':
