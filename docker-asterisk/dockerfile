@@ -31,5 +31,23 @@ RUN yum install npm -y && \
     echo -e "[general]\nenabled = yes\nbindaddr = 0.0.0.0" > /etc/asterisk/http.conf && \
     echo -e "[general]\nenabled = yes\npretty = yes\n\n[asterisk]\ntype = user\nread_only = no\npassword = asterisk" > /etc/asterisk/ari.conf
 
+#Instalando requerimentos
+RUN yum install vim -y && \
+    yum install whois -y
+
+#Configuração de audios em pt-br
+RUN mkdir /var/lib/asterisk/sounds/pt-br && \
+    cd /var/lib/asterisk/sounds/pt-br && \
+    wget -O core.zip https://www.asterisksounds.org:443/pt-br/download/asterisk-sounds-core-pt-BR-sln16.zip && \
+    wget -O extra.zip https://www.asterisksounds.org:443/pt-br/download/asterisk-sounds-extra-pt-BR-sln16.zip && \
+    yum install unzip -y && \
+    unzip -o core.zip && \
+    unzip -o extra.zip && \
+    yum install sox -y 
+COPY convert.sh /var/lib/asterisk/sounds/pt-br/
+RUN cd /var/lib/asterisk/sounds/pt-br && \
+    bash convert.sh && \
+    chmod +x * 
+
 CMD /etc/init.d/asterisk start && tail -f /dev/null
 
