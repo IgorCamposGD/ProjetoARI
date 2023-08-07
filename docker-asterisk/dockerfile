@@ -46,8 +46,11 @@ RUN mkdir /var/lib/asterisk/sounds/pt-br && \
     yum install sox -y 
 COPY convert.sh /var/lib/asterisk/sounds/pt-br/
 RUN cd /var/lib/asterisk/sounds/pt-br && \
+    yum install dos2unix -y && \
+    dos2unix convert.sh && \
     bash convert.sh && \
-    chmod +x * 
+    chmod +x *
+
 
 CMD /etc/init.d/asterisk start && tail -f /dev/null
 
