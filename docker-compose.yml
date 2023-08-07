@@ -28,9 +28,6 @@ services:
     networks:
       - compose-bridge
 
-    depends_on:
-      - asterisk
-
 networks:
   compose-bridge:
     driver: bridge
