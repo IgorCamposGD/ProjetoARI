@@ -29,7 +29,7 @@ RUN yum install npm -y && \
     npm install -g wscat && \
     yum install curl -y && \
     echo -e "[general]\nenabled = yes\nbindaddr = 0.0.0.0" > /etc/asterisk/http.conf && \
-    echo -e "[general]\nenabled = yes\npretty = yes\n\n[asterisk]\ntype = user\nread_only = no\npassword = asterisk" > /etc/asterisk/ari.conf
+    echo -e "[general]\nenabled = yes\npretty = yes\nallowed_origins =\n\n[asterisk]\ntype = user\nread_only = no\npassword = asterisk" > /etc/asterisk/ari.conf
 
 #Instalando requerimentos
 RUN yum install vim -y && \

@@ -1,13 +1,11 @@
-import asyncari
 from asyncari.state import ToplevelChannelState, DTMFHandler
 import asyncio
 import logging
 import asks
 import os
-import httpx
-from variaveisAmbientes import *
+from env import *
+import asyncari
 
-webhook_url = 'https://webhook.site/5837805a-78d6-4711-b7fd-31ebd0c9625e'
 
 class State(ToplevelChannelState, DTMFHandler):
     do_hang = False
@@ -16,26 +14,19 @@ class State(ToplevelChannelState, DTMFHandler):
         await self.channel.play(media='sound:welcome')
 
     async def on_dtmf_Star(self, evt):
-        async with httpx.AsyncClient() as client_http:
-            await client_http.get(f"{webhook_url}?digit={evt.digit}")
         self.do_hang = True
         await self.channel.play(media='sound:vm-goodbye')
 
     async def on_dtmf_Pound(self, evt):
-        async with httpx.AsyncClient() as client_http:
-            await client_http.get(f"{webhook_url}?digit={evt.digit}")
-
         await self.channel.play(media='sound:asterisk-friend')
 
     async def on_dtmf_1(self, evt):
-        async with httpx.AsyncClient() as client_http:
-            await client_http.get(f"{webhook_url}?digit={evt.digit}")
+        await self.channel.continueInDialplan(context='default', extension='200', priority=1)
 
-        await self.channel.play(media='sound:asterisk-friend')
+    async def on_dtmf_2(self, evt):
+        await self.channel.continueInDialplan(context='default', extension='201', priority=1)
 
     async def on_dtmf(self, evt):
-        async with httpx.AsyncClient() as client_http:
-            await client_http.get(f"{webhook_url}?digit={evt.digit}")
         await self.channel.play(media='sound:digits/%s' % evt.digit)
 
     async def on_PlaybackFinished(self, evt):
@@ -44,7 +35,7 @@ class State(ToplevelChannelState, DTMFHandler):
                 await self.channel.continueInDialplan()
             except asks.errors.BadStatus:
                 pass
-        
+
 async def on_start(client):
     
     async with client.on_channel_event('StasisStart') as listener:
