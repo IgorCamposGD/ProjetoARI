@@ -4,7 +4,7 @@ Este é um projeto que utiliza a lib ARI da liguagem python que realiza o contro
 Pré-requisitos:
 Antes de começar, certifique-se de ter o Docker instalado em seu sistema. Se você ainda não tem o Docker instalado, siga as instruções em https://docs.docker.com/get-docker/ para instalar a versão adequada ao seu sistema operacional.
 
-Antes de começar a executar o projeto, altere dentro de docker-python > env.py a variavel de ambiente HOST para seu IP LOCAL.
+Antes de começar a executar o projeto, altere dentro de docker-python > env.py a variavel de ambiente HOST para seu IP LOCAL e também em docker-asterisk ajustar dentro de pjsip.conf o NAT de acordo com a rede do docker e o seu ip local.
 
 Executando o projeto
 Para executar o projeto, siga os seguintes passos:
