@@ -8,6 +8,9 @@ services:
       context: ./docker-asterisk/
       dockerfile: dockerfile
     container_name: asterisk
+    restart: always
+    entrypoint: asterisk -cfgvvvv
+    env_file: .env
     ports:
       - 8088:8088
       - "5060:5060/udp"
@@ -16,6 +19,8 @@ services:
       - ./docker-asterisk/asterisk/asterisk.conf:/etc/asterisk/asterisk.conf
       - ./docker-asterisk/asterisk/extensions.conf:/etc/asterisk/extensions.conf
       - ./docker-asterisk/asterisk/pjsip.conf:/etc/asterisk/pjsip.conf
+      - ./docker-asterisk/asterisk/ari.conf:/etc/asterisk/ari.conf
+      - ./docker-asterisk/asterisk/http.conf:/etc/asterisk/http.conf
     networks:
       - compose-bridge
 
@@ -24,7 +29,11 @@ services:
     build: 
       context: ./docker-python/
       dockerfile: dockerfile
-    container_name: python
+    volumes:
+      - ./docker-python/ura.py:/py/ura.py
+    container_name: python    
+    restart: always
+    env_file: .env
     networks:
       - compose-bridge
 
