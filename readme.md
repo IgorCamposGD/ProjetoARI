@@ -1,4 +1,4 @@
-ProjetoARI
+**ProjetoARI**
 Este é um projeto que utiliza a lib ARI da liguagem python que realiza o controle da ligação quando chamado a aplicação pelo asterisk.
 
 Pré-requisitos:
@@ -10,15 +10,20 @@ Executando o projeto
 Para executar o projeto, siga os seguintes passos:
 
 1 - Clone o repositório para o seu ambiente local:
+```
 git clone https://github.com/IgorCamposGD/ProjetoARI
 
+
 2 - Acesse o diretório do projeto:
+```
 cd ProjetoARI
 
 3 - Em seguida, você pode executar o comando(deixando-o em execução em segundo plano (deixando-o em execução em segundo plano (-d)):
+```
 docker-compose up -d
 
 Agora voce pode acessar o linux com o comando:
+```
 docker exec -it asterisk bash
 
 Para realizar os teste basta registrar um ramal pegando a autenticação no pjsip.conf e ligar para a ura 100 se voce digite 1, voce será encaminhado para extensão 200 e vai executar um audio informando "lamentamos", e caso digite 2 será um audio dizendo "dia"(esses audios foram escolhido aleatoriamente por mim, voce pode altera-lo caso deseje no extensions.conf).
