@@ -34,5 +34,3 @@ RUN yum -y update && \
     bash /var/lib/asterisk/sounds/pt-br/convert.sh && \
     chmod +x /var/lib/asterisk/sounds/pt-br/*
 
-CMD /etc/init.d/asterisk start && tail -f /dev/null
-
