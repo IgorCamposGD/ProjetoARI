@@ -3,7 +3,6 @@ import asyncio
 import logging
 import asks
 import os
-from env import *
 import asyncari
 
 
@@ -45,7 +44,7 @@ async def on_start(client):
             client.taskgroup.start_soon(State(channel).start_task)
 
 async def main():
-    async with asyncari.connect(os.getenv('URL'), os.getenv('ASTERISK_APP'), os.getenv('ASTERISK_USER'), os.getenv('ASTERISK_PASS')) as client:
+    async with asyncari.connect(f"http://{os.getenv('HOST')}:{os.getenv('PORT')}", os.getenv('ASTERISK_APP'), os.getenv('ASTERISK_USER'), os.getenv('ASTERISK_PASS')) as client:    
         client.taskgroup.start_soon(on_start, client)
         # Run the WebSocket
         async for m in client:
